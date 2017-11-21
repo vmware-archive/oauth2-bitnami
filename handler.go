@@ -160,7 +160,7 @@ func getUserInfo(tkn *oauth2.Token) (*userModel, error) {
 		return nil, fmt.Errorf("unable to retrieve user email")
 	}
 
-	return &userModel{Name: info.FirstName + info.LastName, Email: info.Email}, nil
+	return &userModel{Name: fmt.Sprintf("%s %s", info.FirstName, info.LastName), Email: info.Email}, nil
 }
 
 func getOauthConfig(host string) *oauth2.Config {
