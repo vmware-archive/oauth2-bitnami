@@ -56,7 +56,7 @@ func main() {
 
 	sessionStore = sessions.NewCookieStore([]byte(*signingKey))
 
-	r := mux.NewRouter().StrictSlash(true)
+	r := mux.NewRouter()
 
 	// Healthcheck
 	health := healthcheck.NewHandler()
@@ -64,7 +64,7 @@ func main() {
 	r.Handle("/ready", health)
 
 	// Routes
-	r.Methods("GET").Path("").HandlerFunc(InitiateOAuth)
+	r.Methods("GET").Path("/").HandlerFunc(InitiateOAuth)
 	r.Methods("GET").Path("/bitnami/callback").HandlerFunc(BitnamiCallback)
 
 	n := negroni.Classic()
