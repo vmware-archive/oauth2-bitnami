@@ -173,7 +173,8 @@ func getOauthConfig(host string) *oauth2.Config {
 		ClientID:     *oauthClientID,
 		ClientSecret: *oauthClientSecret,
 		Endpoint:     bitnamiEndpoint,
-		RedirectURL:  "http://" + host + "/auth/bitnami/callback",
+		// Note the `/auth` prefix is expected to be handled by the API gateway
+		RedirectURL: "http://" + host + "/auth/bitnami/callback",
 	}
 }
 
