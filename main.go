@@ -64,9 +64,8 @@ func main() {
 	r.Handle("/ready", health)
 
 	// Routes
-	auth := r.PathPrefix("/auth").Subrouter()
-	auth.Methods("GET").Path("").HandlerFunc(InitiateOAuth)
-	auth.Methods("GET").Path("/bitnami/callback").HandlerFunc(BitnamiCallback)
+	r.Methods("GET").Path("").HandlerFunc(InitiateOAuth)
+	r.Methods("GET").Path("/bitnami/callback").HandlerFunc(BitnamiCallback)
 
 	n := negroni.Classic()
 	n.UseHandler(r)
