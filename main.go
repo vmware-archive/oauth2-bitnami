@@ -36,7 +36,7 @@ var oauthClientID *string
 var oauthClientSecret *string
 
 func main() {
-	dbHost := flag.String("mongo-host", "localhost:27017", "MongoDB host")
+	dbURL := flag.String("mongo-url", "localhost", "MongoDB URL (see https://godoc.org/labix.org/v2/mgo#Dial for format)")
 	dbName := flag.String("mongo-database", "ratesvc", "MongoDB database")
 	signingKey = flag.String("jwt-key", "", "Secret used to sign JWT")
 	oauthClientID = flag.String("client-id", "", "Client ID for OAuth")
@@ -47,11 +47,11 @@ func main() {
 		log.Fatal("--jwt-key, --client-id and --client-secret must be set")
 	}
 
-	mongoConfig := datastore.Config{Host: *dbHost, Database: *dbName}
+	mongoConfig := datastore.Config{URL: *dbURL, Database: *dbName}
 	var err error
 	dbSession, err = datastore.NewSession(mongoConfig)
 	if err != nil {
-		log.WithFields(log.Fields{"host": *dbHost}).Fatal(err)
+		log.WithFields(log.Fields{"host": *dbURL}).Fatal(err)
 	}
 
 	sessionStore = sessions.NewCookieStore([]byte(*signingKey))
