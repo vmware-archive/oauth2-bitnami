@@ -39,14 +39,15 @@ type oauthUserInfo struct {
 	Email     string
 }
 
-type userModel struct {
+// UserModel holds the user information in the claim
+type UserModel struct {
 	ID    bson.ObjectId `json:"id" bson:"_id,omitempty"`
 	Name  string        `json:"name"`
 	Email string        `json:"email"`
 }
 
 type userClaims struct {
-	*userModel
+	*UserModel
 	jwt.StandardClaims
 }
 
@@ -108,7 +109,7 @@ func BitnamiCallback(w http.ResponseWriter, r *http.Request) {
 	}
 
 	claims := userClaims{
-		userModel: u,
+		UserModel: u,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: tokenExpiration().Unix(),
 			Issuer:    r.Host,
@@ -132,7 +133,40 @@ func BitnamiCallback(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/", http.StatusFound)
 }
 
-func getUserInfo(tkn *oauth2.Token) (*userModel, error) {
+// Verify implements a check to see if the user is logged in, it returns
+// Unauthorized if logged in, Success otherwise
+func Verify(w http.ResponseWriter, r *http.Request) {
+	cookie, err := r.Cookie("ka_auth")
+	if err != nil {
+		response.NewErrorResponse(http.StatusUnauthorized, "session not found").Write(w)
+		return
+	}
+
+	token, err := jwt.ParseWithClaims(cookie.Value, &userClaims{}, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
+		}
+		return []byte(*signingKey), nil
+	})
+	if err != nil {
+		response.NewErrorResponse(http.StatusUnauthorized, err.Error()).Write(w)
+		return
+	}
+
+	if _, ok := token.Claims.(*userClaims); ok && token.Valid {
+		w.WriteHeader(http.StatusOK)
+	} else {
+		response.NewErrorResponse(http.StatusUnauthorized, "invalid token").Write(w)
+	}
+}
+
+// Logout clears the JWT token cookie
+func Logout(w http.ResponseWriter, r *http.Request) {
+	cookie := http.Cookie{Name: "ka_auth", Value: "", Path: "/", Expires: time.Unix(1, 0)}
+	http.SetCookie(w, &cookie)
+}
+
+func getUserInfo(tkn *oauth2.Token) (*UserModel, error) {
 	auth := fmt.Sprintf("%s %s", strings.Title(tkn.TokenType), tkn.AccessToken)
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", "https://bitnami.com/account/me.json", nil)
@@ -160,7 +194,7 @@ func getUserInfo(tkn *oauth2.Token) (*userModel, error) {
 		return nil, fmt.Errorf("unable to retrieve user email")
 	}
 
-	return &userModel{Name: fmt.Sprintf("%s %s", info.FirstName, info.LastName), Email: info.Email}, nil
+	return &UserModel{Name: fmt.Sprintf("%s %s", info.FirstName, info.LastName), Email: info.Email}, nil
 }
 
 func getOauthConfig(host string) *oauth2.Config {
