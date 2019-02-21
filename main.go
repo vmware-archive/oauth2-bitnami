@@ -66,6 +66,8 @@ func main() {
 	// Routes
 	r.Methods("GET").Path("/").HandlerFunc(InitiateOAuth)
 	r.Methods("GET").Path("/bitnami/callback").HandlerFunc(BitnamiCallback)
+	r.Methods("GET").Path("/verify").HandlerFunc(Verify)
+	r.Methods("DELETE").Path("/logout").HandlerFunc(Logout)
 
 	n := negroni.Classic()
 	n.UseHandler(r)
