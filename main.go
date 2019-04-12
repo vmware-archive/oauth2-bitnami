@@ -37,7 +37,7 @@ var oauthClientSecret *string
 
 func main() {
 	dbURL := flag.String("mongo-url", "localhost", "MongoDB URL (see https://godoc.org/labix.org/v2/mgo#Dial for format)")
-	dbName := flag.String("mongo-database", "ratesvc", "MongoDB database")
+	dbName := flag.String("mongo-database", "users", "MongoDB database")
 	signingKey = flag.String("jwt-key", "", "Secret used to sign JWT")
 	oauthClientID = flag.String("client-id", "", "Client ID for OAuth")
 	oauthClientSecret = flag.String("client-secret", "", "Client secret for OAuth")
