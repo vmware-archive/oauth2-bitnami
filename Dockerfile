@@ -1,6 +1,7 @@
 FROM golang:1.12 as builder
 COPY . /go/src/github.com/kubeapps/oauth2-bitnami
 WORKDIR /go/src/github.com/kubeapps/oauth2-bitnami
+ENV GO111MODULE=on
 RUN CGO_ENABLED=0 go build -a -installsuffix cgo
 
 FROM scratch
