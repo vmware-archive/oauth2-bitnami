@@ -37,13 +37,15 @@ type oauthUserInfo struct {
 	FirstName string `json:"first_name"`
 	LastName  string `json:"last_name"`
 	Email     string
+	ID        int
 }
 
 // UserModel holds the user information in the claim
 type UserModel struct {
-	ID    bson.ObjectId `json:"id" bson:"_id,omitempty"`
-	Name  string        `json:"name"`
-	Email string        `json:"email"`
+	ID        bson.ObjectId `json:"id" bson:"_id,omitempty"`
+	Name      string        `json:"name"`
+	Email     string        `json:"email"`
+	BitnamiID int           `json:"bitnami_id" bson:"bitnami_id"`
 }
 
 type userClaims struct {
@@ -194,7 +196,7 @@ func getUserInfo(tkn *oauth2.Token) (*UserModel, error) {
 		return nil, fmt.Errorf("unable to retrieve user email")
 	}
 
-	return &UserModel{Name: fmt.Sprintf("%s %s", info.FirstName, info.LastName), Email: info.Email}, nil
+	return &UserModel{Name: fmt.Sprintf("%s %s", info.FirstName, info.LastName), Email: info.Email, BitnamiID: info.ID}, nil
 }
 
 func getOauthConfig(host string) *oauth2.Config {
