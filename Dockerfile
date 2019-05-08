@@ -1,7 +1,7 @@
-FROM quay.io/deis/go-dev:v1.5.0 as builder
+FROM golang:1.12 as builder
 COPY . /go/src/github.com/kubeapps/oauth2-bitnami
 WORKDIR /go/src/github.com/kubeapps/oauth2-bitnami
-RUN dep ensure
+ENV GO111MODULE=on
 RUN CGO_ENABLED=0 go build -a -installsuffix cgo
 
 FROM scratch
