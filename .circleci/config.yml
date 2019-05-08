@@ -8,6 +8,8 @@ jobs:
       # specify the version
       - image: circleci/golang:1.12
     working_directory: /go/src/github.com/kubeapps/oauth2-bitnami
+    environment:
+      GO111MODULE: on
     steps:
       - checkout
       - setup_remote_docker:
