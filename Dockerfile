@@ -3,6 +3,7 @@ COPY . /go/src/github.com/kubeapps/oauth2-bitnami
 WORKDIR /go/src/github.com/kubeapps/oauth2-bitnami
 ENV GO111MODULE=on
 RUN CGO_ENABLED=0 go build -a -installsuffix cgo
+RUN curl https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem >> /etc/ssl/certs/ca-certificates.crt
 
 FROM scratch
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
