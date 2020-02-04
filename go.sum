@@ -19,6 +19,7 @@ github.com/heptiolabs/healthcheck v0.0.0-20171103213001-9926c14869d1 h1:a39puQSX
 github.com/heptiolabs/healthcheck v0.0.0-20171103213001-9926c14869d1/go.mod h1:NtmN9h8vrTveVQRLHcX2HQ5wIPBDCsZ351TGbZWgg38=
 github.com/kubeapps/common v0.0.0-20171124125358-3e6c4692b57b h1:2tgYEZK1HgymbrDRiYDK1Lnd/P2+Zo0+JLqfTy6rkhQ=
 github.com/kubeapps/common v0.0.0-20171124125358-3e6c4692b57b/go.mod h1:TsgmjeDpbftqhwPKInJ3v+l+xbHs4goiB6DFb2WqY9c=
+github.com/kubeapps/common v0.0.0-20190508164739-10b110436c1a h1:VqeX/fehAB6FtBox0TVYcjOMXGE56INQIfbXegditX4=
 github.com/matttproud/golang_protobuf_extensions v1.0.0 h1:YNOwxxSJzSUARoD9KRZLzM9Y858MNGCOACTvCW9TSAc=
 github.com/matttproud/golang_protobuf_extensions v1.0.0/go.mod h1:D8He9yQNgCq6Z5Ld7szi9bcBfOoFv/3dc6xSMkL2PC0=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=

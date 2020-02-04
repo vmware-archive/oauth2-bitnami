@@ -12,7 +12,7 @@ require (
 	github.com/gorilla/securecookie v0.0.0-20160422134519-667fe4e3466a // indirect
 	github.com/gorilla/sessions v0.0.0-20160922145804-ca9ada445741
 	github.com/heptiolabs/healthcheck v0.0.0-20171103213001-9926c14869d1
-	github.com/kubeapps/common v0.0.0-20171124125358-3e6c4692b57b
+	github.com/kubeapps/common v0.0.0-20190508164739-10b110436c1a
 	github.com/matttproud/golang_protobuf_extensions v1.0.0 // indirect
 	github.com/prometheus/client_golang v0.8.0 // indirect
 	github.com/prometheus/client_model v0.0.0-20171117100541-99fa1f4be8e5 // indirect
